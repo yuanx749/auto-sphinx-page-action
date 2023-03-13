@@ -1,0 +1,17 @@
+name: Reusable auto sphinx page
+
+on:
+  workflow_call:
+
+jobs:
+  page:
+    permissions:
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    steps:
+      - id: deployment
+        uses: yuanx749/auto-sphinx-page-action@main

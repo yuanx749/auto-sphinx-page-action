@@ -1,0 +1,50 @@
+name: "Auto Sphinx Page"
+description: "Creates website from repo using Sphinx"
+
+inputs:
+  project:
+    description: "project name"
+    required: false
+    default: ${GITHUB_REPOSITORY#${GITHUB_REPOSITORY_OWNER}/}
+  author:
+    description: "author name"
+    required: false
+    default: ${{ github.repository_owner }}
+
+outputs:
+  page_url:
+    description: "URL to deployed GitHub Pages"
+    value: ${{ steps.deployment.outputs.page_url }}
+
+runs:
+  using: "composite"
+  steps:
+    - uses: actions/checkout@v3
+    - uses: actions/setup-python@v4
+      with:
+        python-version: "3.8"
+    - uses: actions/cache@v3
+      with:
+        path: ~/.cache/pip
+        key: ${{ runner.os }}-pip
+    - name: Install dependencies
+      run: |
+        python -m pip install -U pip
+        pip install -r ${{ github.action_path }}/requirements.txt
+      shell: bash
+    - name: Populate conf.py
+      run: |
+        python ${{ github.action_path }}/render.py \
+        --project=${{ inputs.project }} \
+        --author=${{ inputs.author }} \
+        --repo=${{ github.repository }}
+        cat conf.py
+      shell: bash
+    - name: Sphinx build
+      run: sphinx-build ./ _build/html/
+      shell: bash
+    - uses: actions/upload-pages-artifact@v1
+      with:
+        path: _build/html/
+    - id: deployment
+      uses: actions/deploy-pages@v1
