@@ -1,7 +1,7 @@
 import json
-import os
 import sys
 import urllib.request
+from pathlib import Path
 
 conf_template = """
 project = '{project}'
@@ -44,14 +44,13 @@ if "year" not in config:
     config["year"] = data["created_at"][:4]
 
 # create conf.py
-if not os.path.exists(conf := "conf.py"):
-    with open(conf, "w") as f:
-        f.write(conf_template.format(**config))
+if not (conf := Path("conf.py")).is_file():
+    conf.write_text(conf_template.format(**config))
 
 # change README to index
 exts = ["md", "rst"]
-if not any(os.path.isfile(f"index.{ext}") for ext in exts):
+if not any(Path(f"index.{ext}").is_file() for ext in exts):
     for ext in exts:
-        if os.path.isfile(f"README.{ext}"):
-            os.rename(f"README.{ext}", f"index.{ext}")
+        if (p := Path(f"README.{ext}")).is_file():
+            p.rename(f"index.{ext}")
             break
