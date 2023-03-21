@@ -48,3 +48,7 @@ runs:
         path: _build/html/
     - id: deployment
       uses: actions/deploy-pages@v1
+
+branding:
+  icon: "play"
+  color: "purple"
