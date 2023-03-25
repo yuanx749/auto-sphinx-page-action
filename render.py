@@ -17,6 +17,7 @@ templates_path = ['_templates']
 
 html_theme = 'pydata_sphinx_theme'
 html_theme_options = {{
+    'show_toc_level': 2,
     'external_links': [
         {{
             'name': 'View on GitHub',
