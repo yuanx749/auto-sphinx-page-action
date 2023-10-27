@@ -19,7 +19,7 @@ outputs:
 runs:
   using: "composite"
   steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v4
     - uses: actions/setup-python@v4
       with:
         python-version: "3.8"
@@ -43,11 +43,11 @@ runs:
     - name: Sphinx build
       run: sphinx-build ./ _build/html/
       shell: bash
-    - uses: actions/upload-pages-artifact@v1
+    - uses: actions/upload-pages-artifact@v2
       with:
         path: _build/html/
     - id: deployment
-      uses: actions/deploy-pages@v1
+      uses: actions/deploy-pages@v2
 
 branding:
   icon: "play"
