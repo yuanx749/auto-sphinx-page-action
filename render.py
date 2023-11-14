@@ -27,7 +27,6 @@ html_theme_options = {{
     ]
 }}
 html_title = project
-html_static_path = ['_static']
 html_show_sourcelink = False
 """
 

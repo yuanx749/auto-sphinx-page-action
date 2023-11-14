@@ -11,6 +11,7 @@ This action creates a website from your repository, by building with Sphinx.
 - Use [PyData](https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html) theme.
 - Support MyST Markdown. For more information, see [MyST-Parser](http://myst-parser.readthedocs.io/).
 - Publish to GitHub Pages.
+- Can customize with `conf.py`.
 
 ## Usage
 
@@ -56,4 +57,30 @@ jobs:
       pages: write
       id-token: write
     uses: yuanx749/auto-sphinx-page-action/.github/workflows/main.yml@main
+```
+
+For repository with customized docs folder:
+
+```YAML
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - main
+
+jobs:
+  build-deploy:
+    permissions:
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    steps:
+      - id: deployment
+        uses: yuanx749/auto-sphinx-page-action@main
+        with:
+          sourcedir: "docs"  # source directory, optional, default .
+          requirements: "docs/requirements.txt"  # path to the requirements file, optional
 ```
