@@ -18,6 +18,10 @@ inputs:
     description: "requirements file"
     required: false
     default: ""
+  submodules:
+    description: "whether to checkout submodules"
+    required: false
+    default: false
 
 outputs:
   page_url:
@@ -27,11 +31,13 @@ outputs:
 runs:
   using: "composite"
   steps:
-    - uses: actions/checkout@v4
-    - uses: actions/setup-python@v5
+    - uses: actions/checkout@v6
+      with:
+        submodules: ${{ inputs.submodules }}
+    - uses: actions/setup-python@v6
       with:
         python-version: "3.10"
-    - uses: actions/cache@v4
+    - uses: actions/cache@v5
       with:
         path: ~/.cache/pip
         key: ${{ runner.os }}-pip
@@ -60,7 +66,7 @@ runs:
       run: sphinx-build -M html . _build
       working-directory: ${{ inputs.sourcedir }}
       shell: bash
-    - uses: actions/upload-pages-artifact@v3
+    - uses: actions/upload-pages-artifact@v4
       with:
         path: ${{ inputs.sourcedir }}/_build/html
     - id: deployment
