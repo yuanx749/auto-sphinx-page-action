@@ -66,11 +66,11 @@ runs:
       run: sphinx-build -M html . _build
       working-directory: ${{ inputs.sourcedir }}
       shell: bash
-    - uses: actions/upload-pages-artifact@v4
+    - uses: actions/upload-pages-artifact@v5
       with:
         path: ${{ inputs.sourcedir }}/_build/html
     - id: deployment
-      uses: actions/deploy-pages@v4
+      uses: actions/deploy-pages@v5
 
 branding:
   icon: "play"
