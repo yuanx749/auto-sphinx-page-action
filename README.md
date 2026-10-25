@@ -9,7 +9,7 @@ This action creates a website from your repository, by building with Sphinx.
 - Set up the configuration of Sphinx automatically.
 - Use `README` as the homepage if `index` does not exist at the root level.
 - Use [PyData](https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html) theme.
-- Support MyST Markdown. For more information, see [MyST-Parser](http://myst-parser.readthedocs.io/).
+- Support MyST Markdown. For more information, see [MyST-Parser](https://myst-parser.readthedocs.io/).
 - Publish to GitHub Pages.
 - Can customize with `conf.py`.
 
@@ -84,3 +84,14 @@ jobs:
           sourcedir: "docs"  # source directory, optional, default .
           requirements: "docs/requirements.txt"  # path to the requirements file, optional
 ```
+
+Pass additional Sphinx build arguments when calling the action directly:
+
+```YAML
+with:
+  sphinx-args: >-
+    -D html_static_path=_static
+    -D html_css_files=catalog.css
+```
+
+Quote values containing spaces, for example `-D html_title="My project"`.

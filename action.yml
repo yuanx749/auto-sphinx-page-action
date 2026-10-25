@@ -22,6 +22,10 @@ inputs:
     description: "whether to checkout submodules"
     required: false
     default: false
+  sphinx-args:
+    description: "additional sphinx-build arguments"
+    required: false
+    default: ""
 
 outputs:
   page_url:
@@ -31,13 +35,13 @@ outputs:
 runs:
   using: "composite"
   steps:
-    - uses: actions/checkout@v6
+    - uses: actions/checkout@v7
       with:
         submodules: ${{ inputs.submodules }}
-    - uses: actions/setup-python@v6
+    - uses: actions/setup-python@v7
       with:
         python-version: "3.10"
-    - uses: actions/cache@v5
+    - uses: actions/cache@v6
       with:
         path: ~/.cache/pip
         key: ${{ runner.os }}-pip
@@ -63,7 +67,9 @@ runs:
       working-directory: ${{ inputs.sourcedir }}
       shell: bash
     - name: Sphinx build
-      run: sphinx-build -M html . _build
+      env:
+        SPHINX_ARGS: ${{ inputs.sphinx-args }}
+      run: printf '%s' "$SPHINX_ARGS" | xargs sphinx-build -M html . _build
       working-directory: ${{ inputs.sourcedir }}
       shell: bash
     - uses: actions/upload-pages-artifact@v5

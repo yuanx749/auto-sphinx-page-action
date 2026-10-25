@@ -15,6 +15,8 @@ extensions = [
 exclude_patterns = ['_build', 'Thumbs.db', '.DS_Store']
 templates_path = ['_templates']
 
+myst_heading_anchors = 6
+
 html_theme = 'pydata_sphinx_theme'
 html_theme_options = {{
     'navigation_with_keys': False,
