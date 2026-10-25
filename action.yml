@@ -40,7 +40,7 @@ runs:
         submodules: ${{ inputs.submodules }}
     - uses: actions/setup-python@v7
       with:
-        python-version: "3.10"
+        python-version: "3.12"
     - uses: actions/cache@v6
       with:
         path: ~/.cache/pip
